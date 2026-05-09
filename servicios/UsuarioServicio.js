@@ -1,4 +1,4 @@
-const { supabase } = require("../supabase");
+const { supabase } = require("../SupaBase");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -35,7 +35,10 @@ class UsuarioServicio {
     let token = jwt.sign({ Nombre, Correo }, this.PalabraSecreta, {
       expiresIn: "10m",
     });
-    await supabase.from("usuarios").update({ Token: token }).eq("correo", Correo);
+    await supabase
+      .from("usuarios")
+      .update({ Token: token })
+      .eq("correo", Correo);
     return token;
   }
 
@@ -192,7 +195,10 @@ class UsuarioServicio {
           .eq("IdUsuario", id);
         if (plans && plans.length) {
           const planIds = plans.map((p) => p.idPlanillas);
-          await supabase.from("detalleplanilla").delete().in("idPlanilla", planIds);
+          await supabase
+            .from("detalleplanilla")
+            .delete()
+            .in("idPlanilla", planIds);
         }
       } else {
         await supabase.from(table).delete().eq(cols, id);
@@ -200,7 +206,10 @@ class UsuarioServicio {
     }
 
     // Finalmente borrar el usuario
-    const { error } = await supabase.from("usuarios").delete().eq("idUsuario", id);
+    const { error } = await supabase
+      .from("usuarios")
+      .delete()
+      .eq("idUsuario", id);
     if (error) throw error;
     return { mensaje: "Usuario eliminado correctamente" };
   }
