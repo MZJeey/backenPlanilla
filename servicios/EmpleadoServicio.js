@@ -1,4 +1,4 @@
-const { supabase } = require("../SupaBase.js");
+const { supabase } = require("../supabase.js");
 
 class EmpleadoServicio {
   constructor() {}
