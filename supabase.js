@@ -1,13 +1,20 @@
 const { createClient } = require("@supabase/supabase-js");
 
-console.log("URL:", process.env.SUPABASE_URL);
-console.log("KEY:", process.env.SUPABASE_ANON_KEY);
+// ─── Validar variables de entorno ────────────────────────────────────────────
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY,
-);
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.error(
+    "❌ ERROR: Faltan variables de entorno SUPABASE_URL o SUPABASE_ANON_KEY",
+  );
+  process.exit(1); // Detiene el servidor con un mensaje claro
+}
 
+// ─── Cliente Supabase ────────────────────────────────────────────────────────
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+console.log("✅ Supabase conectado correctamente");
 // console.log("URL:", process.env.SUPABASE_URL);
 // console.log("KEY:", process.env.SUPABASE_ANON_KEY);
 // ─── Mapa de llaves primarias por tabla ─────────────────────────────────────
