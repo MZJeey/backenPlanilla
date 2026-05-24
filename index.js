@@ -18,6 +18,8 @@ app.options("*", cors()); // preflight
 app.use(express.json());
 asignarRutasAExpress(app);
 
-const servidor = app.listen(80, () => {
-  console.log("Backend corriendo en el puerto 80.");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Backend corriendo en el puerto ${PORT}`);
 });
