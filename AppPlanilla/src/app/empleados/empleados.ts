@@ -94,10 +94,11 @@ export class Empleados implements OnInit {
     });
   }
 
-  getDepartamentos(): void {
-    this.http.get<any>(`${this.API_URL}DepartamentoServicio/listarDepartamentos`).subscribe({
-      next: (data) => {
-        let lista: any[] = [];
+getDepartamentos(): void {
+  this.http.get<any>(`${this.API_URL}DepartamentoServicio/listarDepartamentos`).subscribe({
+    next: (data) => {
+      console.log('RAW departamentos:', data); // ← agrega esto
+      let lista: any[] = [];
         if (Array.isArray(data))      lista = data;
         else if (data.data)           lista = data.data;
         else if (data.result)         lista = data.result;
