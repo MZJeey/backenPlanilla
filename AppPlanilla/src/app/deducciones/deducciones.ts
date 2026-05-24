@@ -53,7 +53,7 @@ export class Deducciones implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly BASE_URL = 'http://localhost';
+  private readonly BASE_URL = 'https://backenplanilla-production.up.railway.app/';
   private readonly DEDUCCIONES_URL = `${this.BASE_URL}/DeduccionesServicio`;
   private readonly EMPLEADO_URL  = `${this.BASE_URL}/EmpleadoServicio`;
   private readonly USUARIO_URL   = `${this.BASE_URL}/UsuarioServicio`;

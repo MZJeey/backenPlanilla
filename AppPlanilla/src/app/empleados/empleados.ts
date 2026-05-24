@@ -36,8 +36,7 @@ export class Empleados implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly API_URL = 'http://localhost/';
-  private readonly DEPARTAMENTO_URL = 'http://localhost/DepartamentoServicio/';
+  private readonly API_URL = 'https://backenplanilla-production.up.railway.app/';
 
   protected readonly Empleados = signal<Empleado[]>([]);
   protected readonly departamentos = signal<Departamento[]>([]);
@@ -89,7 +88,6 @@ export class Empleados implements OnInit {
           idDepartamento: e.idDepartamento ?? e.id_departamento,
           HoraSalida:     e.HoraSalida     ?? e.hora_salida,
         }));
-        console.log('EMPLEADOS:', normalizados);
         this.Empleados.set(normalizados);
       },
       error: (err) => console.error('Error empleados:', err)
@@ -100,21 +98,15 @@ export class Empleados implements OnInit {
     this.http.get<any>(`${this.API_URL}DepartamentoServicio/listarDepartamentos`).subscribe({
       next: (data) => {
         let lista: any[] = [];
-
-        if (Array.isArray(data)) {
-          lista = data;
-        } else if (data.data) {
-          lista = data.data;
-        } else if (data.result) {
-          lista = data.result;
-        }
+        if (Array.isArray(data))      lista = data;
+        else if (data.data)           lista = data.data;
+        else if (data.result)         lista = data.result;
 
         const normalizados = lista.map((d: any) => ({
           idDepartamento: Number(d.idDepartamento ?? d.id_departamento ?? d.Id ?? d.ID),
           Nombre: d.Nombre ?? d.nombre ?? d.NombreDepartamento ?? 'Sin nombre'
         }));
 
-        console.log('DEPARTAMENTOS:', normalizados);
         this.departamentos.set(normalizados);
       },
       error: (err) => console.error('Error departamentos:', err)
@@ -150,11 +142,9 @@ export class Empleados implements OnInit {
     const total = this.totalCount();
     const current = this.currentPage;
     const pages: number[] = [];
-
     let start = Math.max(1, current - 2);
     let end = Math.min(total, start + 4);
     if (end - start < 4) start = Math.max(1, end - 4);
-
     for (let i = start; i <= end; i++) pages.push(i);
     return pages;
   }
@@ -226,29 +216,59 @@ export class Empleados implements OnInit {
   }
 
   saveEmployee() {
+    // ── Validaciones ──────────────────────────────────────
+    if (!this.form.Nombre?.trim()) {
+      alert('El nombre es obligatorio');
+      return;
+    }
+    if (!this.form.Apellidos?.trim()) {
+      alert('Los apellidos son obligatorios');
+      return;
+    }
+    if (!this.form.CodigoEmpleado?.trim()) {
+      alert('El código de empleado es obligatorio');
+      return;
+    }
+    // ── CORRECCIÓN PRINCIPAL: máximo 4 caracteres ─────────
+    if (this.form.CodigoEmpleado.length > 4) {
+      alert('El código de empleado no puede tener más de 4 caracteres');
+      return;
+    }
     if (!this.form.idDepartamento || this.form.idDepartamento === 0) {
       alert('Debe seleccionar un departamento');
       return;
     }
+    if (!this.form.FechaIngreso) {
+      alert('La fecha de ingreso es obligatoria');
+      return;
+    }
+    // ─────────────────────────────────────────────────────
 
     const payload = {
       ...this.form,
-      idEmpleado: this.editId,
-      Estado: Number(this.form.Estado),
-      Salario: Number(this.form.Salario),
+      idEmpleado:     this.editId,
+      CodigoEmpleado: this.form.CodigoEmpleado.trim().slice(0, 4), // doble seguro
+      Estado:         Number(this.form.Estado),
+      Salario:        Number(this.form.Salario),
       CuentaBancaria: Number(this.form.CuentaBancaria),
       idDepartamento: Number(this.form.idDepartamento)
     };
 
     if (this.editId) {
-      this.http.put(`${this.API_URL}EmpleadoServicio/actualizar`, payload).subscribe(() => {
-        this.getEmpleados();
-        this.showFormModal = false;
+      this.http.put(`${this.API_URL}EmpleadoServicio/actualizar`, payload).subscribe({
+        next: () => { this.getEmpleados(); this.showFormModal = false; },
+        error: (err) => {
+          console.error('Error al actualizar:', err);
+          alert('Error al actualizar el empleado. Revisa los datos e intenta de nuevo.');
+        }
       });
     } else {
-      this.http.post(`${this.API_URL}EmpleadoServicio/insertar`, payload).subscribe(() => {
-        this.getEmpleados();
-        this.showFormModal = false;
+      this.http.post(`${this.API_URL}EmpleadoServicio/insertar`, payload).subscribe({
+        next: () => { this.getEmpleados(); this.showFormModal = false; },
+        error: (err) => {
+          console.error('Error al insertar:', err);
+          alert('Error al guardar el empleado. Revisa los datos e intenta de nuevo.');
+        }
       });
     }
   }
@@ -275,16 +295,17 @@ export class Empleados implements OnInit {
   }
 
   confirmDelete() {
-    this.http.delete(`${this.API_URL}EmpleadoServicio/eliminar?id=${this.deleteTargetId}`).subscribe(() => {
-      this.getEmpleados();
+    this.http.delete(`${this.API_URL}EmpleadoServicio/eliminar?id=${this.deleteTargetId}`).subscribe({
+      next: () => this.getEmpleados(),
+      error: (err) => console.error('Error al eliminar:', err)
     });
     this.showDeleteModal = false;
   }
 
   onOverlayClick(event: MouseEvent, modal: 'form' | 'view' | 'delete') {
     if (event.target === event.currentTarget) {
-      if (modal === 'form') this.showFormModal = false;
-      if (modal === 'view') this.showViewModal = false;
+      if (modal === 'form')   this.showFormModal = false;
+      if (modal === 'view')   this.showViewModal = false;
       if (modal === 'delete') this.showDeleteModal = false;
     }
   }

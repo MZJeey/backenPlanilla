@@ -38,7 +38,7 @@ export class Vacaciones implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
 
-  private readonly API_URL = 'http://localhost';
+  private readonly API_URL = 'https://backenplanilla-production.up.railway.app/';
   private readonly VACACIONES_URL = `${this.API_URL}/VacacionesServicio`;
   private readonly EMPLEADO_URL = `${this.API_URL}/EmpleadoServicio`;
   private readonly USUARIO_URL = `${this.API_URL}/UsuarioServicio`;

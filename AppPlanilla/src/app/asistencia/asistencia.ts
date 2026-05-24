@@ -34,7 +34,7 @@ export class Asistencia implements OnInit, OnDestroy {
 
   private readonly router = inject(Router);
 
-  private readonly API_URL = 'http://localhost';
+  private readonly API_URL = 'https://backenplanilla-production.up.railway.app/';
   private readonly ASISTENCIA_URL = `${this.API_URL}/ControlAsistenciaServicio/`;
   private readonly EMPLEADO_URL = `${this.API_URL}/EmpleadoServicio/`;
   private readonly TZ = 'America/Costa_Rica';

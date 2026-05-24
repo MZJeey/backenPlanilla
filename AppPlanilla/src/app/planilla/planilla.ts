@@ -52,7 +52,7 @@ export class Planilla implements OnInit {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
 
-  private readonly BASE_URL = 'http://localhost';
+  private readonly BASE_URL = 'https://backenplanilla-production.up.railway.app/';
 
   private readonly PLANILLA_URL = `${this.BASE_URL}/PlanillaServicio`;
   private readonly DETALLE_URL = `${this.BASE_URL}/DetalleplanillaServicio`;

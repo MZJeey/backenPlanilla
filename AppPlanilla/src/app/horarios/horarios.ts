@@ -45,7 +45,7 @@ export class Horarios implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
 
-  private readonly BASE_URL = 'http://localhost';
+  private readonly BASE_URL = 'https://backenplanilla-production.up.railway.app/';
   private readonly HORARIO_URL = `${this.BASE_URL}/ControlHorarioServicio`;
   private readonly EMPLEADO_URL = `${this.BASE_URL}/EmpleadoServicio`;
   private readonly USUARIO_URL = `${this.BASE_URL}/UsuarioServicio`;

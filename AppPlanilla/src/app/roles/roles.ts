@@ -22,7 +22,7 @@ export class Roles implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
 
-  private readonly BASE_URL = 'http://localhost';
+  private readonly BASE_URL = 'https://backenplanilla-production.up.railway.app/';
   private readonly ROLES_URL = `${this.BASE_URL}/RolesServicio`;
 
   readonly perPage = 8;

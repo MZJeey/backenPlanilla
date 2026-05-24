@@ -656,3 +656,104 @@ tbody tr:last-child td {
 .av-teal {
   background: #0a7a8f;
 }
+
+/* ══════════════════════════════════════
+   HORA ENTRADA / SALIDA — labels con ícono
+══════════════════════════════════════ */
+
+.time-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Ícono entrada → verde */
+.time-icon--in {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: #16a34a; /* verde */
+}
+
+/* Ícono salida → rojo */
+.time-icon--out {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: #dc2626; /* rojo */
+}
+
+/* Input entrada → borde y foco verde */
+.time-input--in {
+  border-color: #bbf7d0 !important;
+  background-color: #f0fdf4 !important;
+}
+.time-input--in:focus {
+  border-color: #16a34a !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15) !important;
+  outline: none;
+}
+
+/* Input salida → borde y foco rojo */
+.time-input--out {
+  border-color: #fecaca !important;
+  background-color: #fff5f5 !important;
+}
+.time-input--out:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
+  outline: none;
+}
+
+/* ══════════════════════════════════════
+   HORA ENTRADA / SALIDA — modal ver detalle
+══════════════════════════════════════ */
+
+/* Punto de color en el label */
+.time-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.time-dot--in {
+  background: #16a34a;
+}
+.time-dot--out {
+  background: #dc2626;
+}
+
+/* Valor con color */
+.view-time--in {
+  color: #16a34a;
+  font-weight: 600;
+}
+.view-time--out {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════
+   CÓDIGO EMPLEADO — contador y hint
+══════════════════════════════════════ */
+
+.char-hint {
+  font-size: 11px;
+  font-weight: 400;
+  color: #94a3b8;
+  margin-left: 4px;
+}
+
+.char-counter {
+  display: block;
+  text-align: right;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 3px;
+}

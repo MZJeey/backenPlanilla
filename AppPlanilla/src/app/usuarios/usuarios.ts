@@ -54,7 +54,7 @@ export class Usuarios implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly router = inject(Router);
 
-  private readonly BASE_URL = 'http://localhost';
+  private readonly BASE_URL = 'https://backenplanilla-production.up.railway.app/';
   private readonly USUARIO_URL = `${this.BASE_URL}/UsuarioServicio`;
 
   readonly perPage = 8;
