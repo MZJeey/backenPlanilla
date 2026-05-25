@@ -1,3 +1,11 @@
+process.on("uncaughtException", (err) => {
+  console.error("ERROR FATAL:", err.message, err.stack);
+});
+
+process.on("unhandledRejection", (reason) => {
+  console.error("PROMESA RECHAZADA:", reason);
+});
+
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -11,8 +19,8 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-app.options("*", cors(corsOptions)); // ← preflight PRIMERO
-app.use(cors(corsOptions)); // ← luego el middleware general
+app.options("*", cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(express.json());
 asignarRutasAExpress(app);
