@@ -5,15 +5,14 @@ const asignarRutasAExpress = require("./rutas/rutas.js");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  }),
-);
+const corsOptions = {
+  origin: "https://app-planilla.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
-app.options("*", cors()); // preflight
+app.options("*", cors(corsOptions)); // ← preflight PRIMERO
+app.use(cors(corsOptions)); // ← luego el middleware general
 
 app.use(express.json());
 asignarRutasAExpress(app);
